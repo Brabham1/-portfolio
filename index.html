@@ -141,7 +141,9 @@
       pointer-events: none;
     }
 
-    #video-bg iframe {
+    #video-bg iframe,
+    #yt-player iframe,
+    #yt-player {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -260,11 +262,7 @@
   <!-- Login Overlay -->
   <div id="login-overlay">
     <div id="video-bg">
-      <iframe id="yt-iframe"
-        src="https://www.youtube.com/embed/auXfAHHNSFo?autoplay=1&mute=1&loop=1&playlist=auXfAHHNSFo&controls=0&showinfo=0&rel=0&modestbranding=1"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
+      <div id="yt-player"></div>
     </div>
     <div id="overlay-dim"></div>
     <div id="login-box">
@@ -337,25 +335,60 @@
 
   <script>
     var muted = true;
+    var player;
+    var loopInterval;
+    var START = 19;
+    var END = 73;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player', {
+        videoId: 'NeFqsWWG1qE',
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          start: START,
+          end: END,
+          loop: 0
+        },
+        events: {
+          onReady: function(e) {
+            e.target.playVideo();
+            loopInterval = setInterval(function() {
+              if (player && player.getCurrentTime) {
+                var t = player.getCurrentTime();
+                if (t >= END) {
+                  player.seekTo(START, true);
+                }
+              }
+            }, 500);
+          }
+        }
+      });
+    }
 
     function toggleMute() {
-      const iframe = document.getElementById('yt-iframe');
-      const btn = document.getElementById('unmute-btn');
-      const src = iframe.src;
+      var btn = document.getElementById('unmute-btn');
       if (muted) {
-        iframe.src = src.replace('mute=1', 'mute=0');
+        player.unMute();
+        player.setVolume(100);
         btn.textContent = 'Mute';
         muted = false;
       } else {
-        iframe.src = src.replace('mute=0', 'mute=1');
+        player.mute();
         btn.textContent = 'Unmute';
         muted = true;
       }
     }
 
     function checkPassword() {
-      const input = document.getElementById('password-input').value;
+      var input = document.getElementById('password-input').value;
       if (input === 'Brabham123') {
+        clearInterval(loopInterval);
+        player.stopVideo();
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('portfolio-content').style.display = 'block';
       } else {
@@ -365,6 +398,7 @@
       }
     }
   </script>
+  <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
