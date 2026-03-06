@@ -125,31 +125,64 @@
     #login-overlay {
       position: fixed;
       inset: 0;
-      background-color: #d0eaf8;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      overflow: hidden;
+    }
+
+    #video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+
+    #video-bg iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 177.78vh;
+      height: 100vh;
+      min-width: 100%;
+      min-height: 56.25vw;
+      transform: translate(-50%, -50%);
+      border: none;
+    }
+
+    #overlay-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
     }
 
     #login-box {
-      background: white;
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px;
       padding: 48px 40px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
       text-align: center;
       width: 100%;
       max-width: 360px;
     }
 
     #login-box h2 {
-      color: #1a6fa3;
+      color: white;
       font-size: 1.6rem;
       margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     #login-box p {
-      color: #666;
+      color: rgba(255,255,255,0.85);
       font-size: 0.95rem;
       margin-bottom: 28px;
     }
@@ -157,15 +190,21 @@
     #login-box input {
       width: 100%;
       padding: 12px 16px;
-      border: 2px solid #b3d4eb;
+      border: 2px solid rgba(255,255,255,0.4);
       border-radius: 8px;
       font-size: 1rem;
       outline: none;
+      background: rgba(255,255,255,0.15);
+      color: white;
       transition: border-color 0.2s;
     }
 
+    #login-box input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
     #login-box input:focus {
-      border-color: #1a6fa3;
+      border-color: white;
     }
 
     #login-box button {
@@ -187,10 +226,28 @@
     }
 
     #login-error {
-      color: #c0392b;
+      color: #ff6b6b;
       font-size: 0.88rem;
       margin-top: 12px;
       display: none;
+    }
+
+    #unmute-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 3;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    #unmute-btn:hover {
+      background: rgba(0,0,0,0.75);
     }
 
     #portfolio-content {
@@ -202,6 +259,14 @@
 
   <!-- Login Overlay -->
   <div id="login-overlay">
+    <div id="video-bg">
+      <iframe id="yt-iframe"
+        src="https://www.youtube.com/embed/auXfAHHNSFo?autoplay=1&mute=1&loop=1&playlist=auXfAHHNSFo&controls=0&showinfo=0&rel=0&modestbranding=1"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div id="overlay-dim"></div>
     <div id="login-box">
       <h2>Welcome</h2>
       <p>Enter the password to view the portfolio</p>
@@ -209,6 +274,7 @@
       <button onclick="checkPassword()">Enter</button>
       <div id="login-error">Incorrect password. Try again.</div>
     </div>
+    <button id="unmute-btn" onclick="toggleMute()">Unmute</button>
   </div>
 
   <div id="portfolio-content">
@@ -270,6 +336,23 @@
   </div> <!-- end portfolio-content -->
 
   <script>
+    var muted = true;
+
+    function toggleMute() {
+      const iframe = document.getElementById('yt-iframe');
+      const btn = document.getElementById('unmute-btn');
+      const src = iframe.src;
+      if (muted) {
+        iframe.src = src.replace('mute=1', 'mute=0');
+        btn.textContent = 'Mute';
+        muted = false;
+      } else {
+        iframe.src = src.replace('mute=0', 'mute=1');
+        btn.textContent = 'Unmute';
+        muted = true;
+      }
+    }
+
     function checkPassword() {
       const input = document.getElementById('password-input').value;
       if (input === 'Brabham123') {
