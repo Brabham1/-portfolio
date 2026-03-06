@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdullahi Mahamud — Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #d0eaf8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #1a6fa3;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      color: #1a6fa3;
+      border-bottom: 3px solid #1a6fa3;
+      padding-bottom: 8px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+    }
+
+    .project-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #1a6fa3;
+    }
+
+    .project-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .project-card .tags {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background-color: #d0eaf8;
+      color: #1a6fa3;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .project-card .links {
+      margin-top: 16px;
+    }
+
+    .project-card .links a {
+      color: #1a6fa3;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-right: 14px;
+    }
+
+    .project-card .links a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+      color: #555;
+      font-size: 0.9rem;
+      border-top: 1px solid #b3d4eb;
+    }
+    /* Login overlay */
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: #d0eaf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #login-box {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    #login-box h2 {
+      color: #1a6fa3;
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    #login-box p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    #login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #b3d4eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #login-box input:focus {
+      border-color: #1a6fa3;
+    }
+
+    #login-box button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      background-color: #1a6fa3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #login-box button:hover {
+      background-color: #155d8a;
+    }
+
+    #login-error {
+      color: #c0392b;
+      font-size: 0.88rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    #portfolio-content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Overlay -->
+  <div id="login-overlay">
+    <div id="login-box">
+      <h2>Welcome</h2>
+      <p>Enter the password to view the portfolio</p>
+      <input type="password" id="password-input" placeholder="Password" onkeydown="if(event.key==='Enter') checkPassword()" />
+      <button onclick="checkPassword()">Enter</button>
+      <div id="login-error">Incorrect password. Try again.</div>
+    </div>
+  </div>
+
+  <div id="portfolio-content">
+
+  <header>
+    <h1>Abdullahi Mahamud</h1>
+    <p>Personal Projects Portfolio</p>
+  </header>
+
+  <main>
+    <h2 class="section-title">Projects</h2>
+
+    <div class="projects-grid">
+
+      <!-- Project Card Template — duplicate and fill in -->
+      <div class="project-card">
+        <h3>Project Name</h3>
+        <p>Short description of what this project does and what you built.</p>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
+        <div class="links">
+          <a href="#">GitHub</a>
+          <a href="#">Live Demo</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h3>Project Name</h3>
+        <p>Short description of what this project does and what you built.</p>
+        <div class="tags">
+          <span class="tag">Python</span>
+        </div>
+        <div class="links">
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h3>Project Name</h3>
+        <p>Short description of what this project does and what you built.</p>
+        <div class="tags">
+          <span class="tag">JavaScript</span>
+        </div>
+        <div class="links">
+          <a href="#">GitHub</a>
+          <a href="#">Live Demo</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 Abdullahi Mahamud
+  </footer>
+
+  </div> <!-- end portfolio-content -->
+
+  <script>
+    function checkPassword() {
+      const input = document.getElementById('password-input').value;
+      if (input === 'Brabham123') {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('portfolio-content').style.display = 'block';
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+        document.getElementById('password-input').value = '';
+        document.getElementById('password-input').focus();
+      }
+    }
+  </script>
+
+</body>
+</html>
