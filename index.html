@@ -5,25 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Abdullahi Mahamud — Portfolio</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #d0eaf8;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #1a1a2e;
+      background: #000;
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      color: #c9ffdb;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* ── Matrix canvas background ── */
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    /* ── Scanlines overlay ── */
+    #portfolio-content::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.08) 3px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #portfolio-content {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
     header {
-      background-color: #1a6fa3;
-      color: white;
-      padding: 50px 20px;
+      padding: 60px 20px 40px;
       text-align: center;
+      border-bottom: 1px solid rgba(0,255,65,0.2);
+      position: relative;
     }
 
-    header h1 { font-size: 2.8rem; letter-spacing: 1px; }
-    header p  { font-size: 1.1rem; margin-top: 10px; opacity: 0.85; }
+    header::before {
+      content: '// SYSTEM ACCESS GRANTED';
+      display: block;
+      font-size: 0.75rem;
+      color: #00ff41;
+      opacity: 0.6;
+      margin-bottom: 16px;
+      letter-spacing: 3px;
+    }
 
+    header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #00ff41;
+      text-shadow: 0 0 20px rgba(0,255,65,0.8), 0 0 40px rgba(0,255,65,0.4);
+      letter-spacing: 3px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      margin-top: 10px;
+      color: #00d4ff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0,212,255,0.6);
+    }
+
+    /* ── Main ── */
     main {
       max-width: 1100px;
       margin: 60px auto;
@@ -31,65 +92,95 @@
     }
 
     .section-title {
-      font-size: 1.8rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2rem;
       margin-bottom: 30px;
-      color: #1a6fa3;
-      border-bottom: 3px solid #1a6fa3;
-      padding-bottom: 8px;
+      color: #00ff41;
+      text-shadow: 0 0 10px rgba(0,255,65,0.5);
+      border-bottom: 1px solid rgba(0,255,65,0.3);
+      padding-bottom: 10px;
+      letter-spacing: 2px;
     }
 
+    .section-title::before { content: '> '; opacity: 0.6; }
+
+    /* ── Project cards ── */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
+      gap: 20px;
     }
 
     .project-card {
-      background-color: white;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: #0d1117;
+      border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: #00ff41;
+      box-shadow: 0 0 10px #00ff41;
     }
 
     .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+      border-color: #00ff41;
+      box-shadow: 0 0 20px rgba(0,255,65,0.2);
+      transform: translateY(-3px);
     }
 
-    .project-card h3    { font-size: 1.2rem; margin-bottom: 10px; color: #1a6fa3; }
-    .project-card p     { font-size: 0.95rem; line-height: 1.6; color: #444; }
+    .project-card h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #00ff41;
+      text-shadow: 0 0 8px rgba(0,255,65,0.4);
+    }
+
+    .project-card p { font-size: 0.88rem; line-height: 1.7; color: #8b9467; }
+
     .project-card .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
 
     .tag {
-      background-color: #d0eaf8;
-      color: #1a6fa3;
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      background: rgba(0,255,65,0.08);
+      color: #00ff41;
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
     }
 
-    .project-card .links { margin-top: 16px; }
+    .project-card .links { margin-top: 14px; }
     .project-card .links a {
-      color: #1a6fa3;
+      color: #00d4ff;
       text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.85rem;
       margin-right: 14px;
+      text-shadow: 0 0 6px rgba(0,212,255,0.4);
+      transition: text-shadow 0.2s;
     }
-    .project-card .links a:hover { text-decoration: underline; }
+    .project-card .links a:hover { text-shadow: 0 0 12px rgba(0,212,255,0.9); }
 
+    /* ── Footer ── */
     footer {
       text-align: center;
       padding: 40px 20px;
       margin-top: 60px;
-      color: #555;
-      font-size: 0.9rem;
-      border-top: 1px solid #b3d4eb;
+      color: rgba(0,255,65,0.3);
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(0,255,65,0.1);
+      letter-spacing: 2px;
     }
 
-    /* ── Login overlay ─────────────────────────────── */
+    /* ── Login overlay ── */
     #login-overlay {
       position: fixed;
       inset: 0;
@@ -111,57 +202,90 @@
       object-fit: cover;
     }
 
-    #overlay-dim { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+    #overlay-dim { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
 
     #login-box {
       position: relative; z-index: 2;
-      background: rgba(255,255,255,0.15);
+      background: rgba(0,10,0,0.85);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 16px;
+      border: 1px solid #00ff41;
+      border-radius: 4px;
       padding: 48px 40px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 0 40px rgba(0,255,65,0.3), inset 0 0 40px rgba(0,255,65,0.03);
       text-align: center;
-      width: 100%; max-width: 360px;
+      width: 100%; max-width: 380px;
     }
 
-    #login-box h2 { color: white; font-size: 1.6rem; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-    #login-box p  { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-bottom: 28px; }
+    #login-box h2 {
+      font-family: 'Orbitron', monospace;
+      color: #00ff41;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      text-shadow: 0 0 15px rgba(0,255,65,0.8);
+      letter-spacing: 3px;
+    }
+
+    #login-box p {
+      color: rgba(0,255,65,0.5);
+      font-size: 0.82rem;
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+    }
 
     #login-box input {
       width: 100%; padding: 12px 16px;
-      border: 2px solid rgba(255,255,255,0.4);
-      border-radius: 8px; font-size: 1rem; outline: none;
-      background: rgba(255,255,255,0.15); color: white;
-      transition: border-color 0.2s;
+      border: 1px solid rgba(0,255,65,0.4);
+      border-radius: 4px; font-size: 0.95rem;
+      font-family: 'Share Tech Mono', monospace;
+      outline: none;
+      background: rgba(0,255,65,0.05);
+      color: #00ff41;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 2px;
     }
-    #login-box input::placeholder { color: rgba(255,255,255,0.6); }
-    #login-box input:focus        { border-color: white; }
+    #login-box input::placeholder { color: rgba(0,255,65,0.3); }
+    #login-box input:focus {
+      border-color: #00ff41;
+      box-shadow: 0 0 10px rgba(0,255,65,0.3);
+    }
 
     #login-box button {
-      margin-top: 16px; width: 100%; padding: 12px;
-      background-color: #1a6fa3; color: white;
-      border: none; border-radius: 8px;
-      font-size: 1rem; font-weight: 600; cursor: pointer;
-      transition: background-color 0.2s;
+      margin-top: 14px; width: 100%; padding: 12px;
+      background: rgba(0,255,65,0.1);
+      color: #00ff41;
+      border: 1px solid #00ff41;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
     }
-    #login-box button:hover { background-color: #155d8a; }
+    #login-box button:hover {
+      background: rgba(0,255,65,0.2);
+      box-shadow: 0 0 15px rgba(0,255,65,0.4);
+    }
 
-    #login-error { color: #ff6b6b; font-size: 0.88rem; margin-top: 12px; display: none; }
+    #login-error {
+      color: #ff0040;
+      font-size: 0.82rem;
+      margin-top: 12px;
+      display: none;
+      text-shadow: 0 0 8px rgba(255,0,64,0.6);
+    }
 
     #unmute-btn {
       position: absolute; bottom: 20px; right: 20px; z-index: 3;
-      background: rgba(0,0,0,0.5); color: white;
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 8px; padding: 8px 14px;
-      cursor: pointer; font-size: 0.85rem;
+      background: rgba(0,0,0,0.6); color: rgba(0,255,65,0.7);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 4px; padding: 8px 14px;
+      cursor: pointer; font-size: 0.8rem;
+      font-family: 'Share Tech Mono', monospace;
     }
-    #unmute-btn:hover { background: rgba(0,0,0,0.75); }
+    #unmute-btn:hover { color: #00ff41; border-color: #00ff41; }
 
-    #portfolio-content { display: none; }
-
-    /* ── Tracker styles ────────────────────────────── */
+    /* ── Tracker ── */
     .tr-wrap {
       display: flex;
       gap: 1.5rem;
@@ -170,27 +294,35 @@
 
     .tr-cal-panel {
       flex: 1;
-      background: #fff;
-      border-radius: 16px;
+      background: #0d1117;
+      border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 8px;
       padding: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
 
-    .tr-cal-panel h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; color: #333; }
+    .tr-cal-panel h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #00d4ff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(0,212,255,0.4);
+    }
 
     .tr-day-headers, .tr-cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
+      gap: 3px;
     }
-    .tr-day-headers { margin-bottom: 4px; }
+    .tr-day-headers { margin-bottom: 3px; }
 
     .tr-day-header {
       text-align: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #aaa;
+      font-size: 0.65rem;
+      color: rgba(0,255,65,0.4);
       padding: 2px 0 6px;
+      letter-spacing: 1px;
     }
 
     .tr-day-cell {
@@ -199,72 +331,79 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
+      border-radius: 4px;
       cursor: pointer;
-      border: 2px solid transparent;
-      transition: background 0.12s, border-color 0.12s;
+      border: 1px solid transparent;
+      transition: all 0.12s;
       position: relative;
       min-width: 0;
       padding: 2px;
+      background: rgba(0,255,65,0.03);
     }
 
-    .tr-day-cell:hover  { background: #f0eeff; }
-    .tr-day-cell.tr-empty    { cursor: default; pointer-events: none; }
-    .tr-day-cell.tr-today    { border-color: #6c63ff; }
-    .tr-day-cell.tr-selected { background: #6c63ff !important; color: #fff; }
-    .tr-day-cell.tr-selected .tr-day-month { color: rgba(255,255,255,0.75) !important; }
-    .tr-day-cell.tr-full     { background: #e8f5e9; }
-    .tr-day-cell.tr-partial  { background: #fff8e1; }
-    .tr-day-cell.tr-exam-day { border-color: #e53935 !important; }
-    .tr-day-cell.tr-exam-day .tr-day-month { color: #e53935 !important; }
-    .tr-day-cell.tr-selected.tr-exam-day .tr-day-month { color: rgba(255,255,255,0.85) !important; }
+    .tr-day-cell:hover { background: rgba(0,255,65,0.1); border-color: rgba(0,255,65,0.3); }
+    .tr-day-cell.tr-empty    { cursor: default; pointer-events: none; background: transparent; }
+    .tr-day-cell.tr-today    { border-color: #00ff41; box-shadow: 0 0 6px rgba(0,255,65,0.4); }
+    .tr-day-cell.tr-selected { background: #00ff41 !important; color: #000 !important; border-color: #00ff41; }
+    .tr-day-cell.tr-selected .tr-day-month { color: rgba(0,0,0,0.7) !important; }
+    .tr-day-cell.tr-selected .tr-day-number { color: #000 !important; }
+    .tr-day-cell.tr-full    { background: rgba(0,255,65,0.12); }
+    .tr-day-cell.tr-partial { background: rgba(255,200,0,0.1); }
+    .tr-day-cell.tr-exam-day { border-color: #ff0040 !important; box-shadow: 0 0 6px rgba(255,0,64,0.4); }
+    .tr-day-cell.tr-exam-day .tr-day-month { color: #ff0040 !important; }
+    .tr-day-cell.tr-selected.tr-exam-day .tr-day-month { color: rgba(0,0,0,0.7) !important; }
 
-    .tr-day-number { font-size: 0.9rem; font-weight: 600; line-height: 1; }
-    .tr-day-month  { font-size: 0.58rem; color: #6c63ff; margin-top: 2px; }
+    .tr-day-number { font-size: 0.85rem; font-weight: 600; line-height: 1; color: #c9ffdb; }
+    .tr-day-month  { font-size: 0.55rem; color: rgba(0,255,65,0.5); margin-top: 2px; }
 
-    .tr-status-dot {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      margin-top: 2px;
-    }
+    .tr-status-dot { width: 4px; height: 4px; border-radius: 50%; margin-top: 2px; }
 
     .tr-exam-badge {
-      font-size: 0.48rem; font-weight: 700;
-      color: #e53935; letter-spacing: 0.03em;
+      font-size: 0.45rem; font-weight: 700;
+      color: #ff0040; letter-spacing: 0.05em;
       margin-top: 1px; line-height: 1;
+      text-shadow: 0 0 4px rgba(255,0,64,0.6);
     }
-    .tr-day-cell.tr-selected .tr-exam-badge { color: rgba(255,255,255,0.9); }
+    .tr-day-cell.tr-selected .tr-exam-badge { color: rgba(0,0,0,0.8); text-shadow: none; }
 
-    /* tasks panel */
     .tr-tasks-panel {
       width: 280px;
       flex-shrink: 0;
-      background: #fff;
-      border-radius: 16px;
+      background: #0d1117;
+      border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 8px;
       padding: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
       position: sticky;
       top: 1.5rem;
     }
 
-    .tr-tasks-panel h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: #333; }
+    .tr-tasks-panel h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: #00d4ff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(0,212,255,0.4);
+    }
 
     .tr-date-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #6c63ff;
+      font-size: 0.78rem;
+      color: #00ff41;
       margin-bottom: 1rem;
+      text-shadow: 0 0 6px rgba(0,255,65,0.4);
+      letter-spacing: 1px;
     }
 
     .tr-exam-banner {
-      background: #fff3f3;
-      border: 1px solid #ffcdd2;
-      border-radius: 10px;
+      background: rgba(255,0,64,0.1);
+      border: 1px solid rgba(255,0,64,0.4);
+      border-radius: 4px;
       padding: 0.6rem 0.85rem;
       margin-bottom: 0.75rem;
-      font-size: 0.8rem;
-      color: #c62828;
-      font-weight: 600;
+      font-size: 0.78rem;
+      color: #ff0040;
+      text-shadow: 0 0 6px rgba(255,0,64,0.5);
     }
 
     .tr-task-item {
@@ -272,68 +411,82 @@
       align-items: flex-start;
       gap: 10px;
       padding: 0.6rem 0;
-      border-bottom: 1px solid #f3f3f3;
+      border-bottom: 1px solid rgba(0,255,65,0.08);
     }
     .tr-task-item:last-child { border-bottom: none; }
 
     .tr-task-item input[type="checkbox"] {
-      width: 16px; height: 16px;
+      width: 15px; height: 15px;
       flex-shrink: 0; margin-top: 2px;
-      accent-color: #6c63ff; cursor: pointer;
+      accent-color: #00ff41; cursor: pointer;
     }
 
     .tr-task-text {
-      font-size: 0.83rem;
-      line-height: 1.4;
+      font-size: 0.8rem;
+      line-height: 1.5;
       cursor: pointer;
       user-select: none;
+      color: #8b9467;
+      letter-spacing: 0.5px;
     }
-    .tr-task-item.tr-done .tr-task-text { text-decoration: line-through; color: #bbb; }
+    .tr-task-item.tr-done .tr-task-text { text-decoration: line-through; color: rgba(0,255,65,0.25); }
 
     .tr-progress-section {
-      margin-top: 1.1rem;
+      margin-top: 1rem;
       padding-top: 1rem;
-      border-top: 1px solid #f3f3f3;
+      border-top: 1px solid rgba(0,255,65,0.1);
     }
     .tr-progress-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.77rem;
-      color: #777;
+      font-size: 0.72rem;
+      color: rgba(0,255,65,0.5);
       margin-bottom: 6px;
+      letter-spacing: 1px;
     }
-    .tr-progress-track { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
-    .tr-progress-fill  { height: 100%; background: #6c63ff; border-radius: 3px; transition: width 0.3s; }
+    .tr-progress-track { height: 4px; background: rgba(0,255,65,0.1); border-radius: 2px; overflow: hidden; }
+    .tr-progress-fill  {
+      height: 100%; background: #00ff41;
+      border-radius: 2px; transition: width 0.3s;
+      box-shadow: 0 0 8px rgba(0,255,65,0.6);
+    }
 
     .tr-streak-box {
       margin-top: 1rem;
-      background: #f8f7ff;
-      border-radius: 10px;
+      background: rgba(0,255,65,0.05);
+      border: 1px solid rgba(0,255,65,0.15);
+      border-radius: 4px;
       padding: 0.7rem 1rem;
       text-align: center;
-      font-size: 0.8rem;
-      color: #555;
+      font-size: 0.76rem;
+      color: rgba(0,255,65,0.5);
+      letter-spacing: 1px;
     }
-    .tr-streak-box strong { color: #6c63ff; font-size: 1rem; }
+    .tr-streak-box strong { color: #00ff41; font-size: 1rem; text-shadow: 0 0 8px rgba(0,255,65,0.6); }
 
     .tr-legend {
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
-      font-size: 0.7rem;
-      color: #888;
+      font-size: 0.65rem;
+      color: rgba(0,255,65,0.4);
       flex-wrap: wrap;
+      letter-spacing: 0.5px;
     }
-    .tr-legend-item { display: flex; align-items: center; gap: 4px; }
-    .tr-legend-dot  { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .tr-legend-item { display: flex; align-items: center; gap: 5px; }
+    .tr-legend-dot  { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
     @media (max-width: 700px) {
       .tr-wrap { flex-direction: column; }
       .tr-tasks-panel { width: 100%; position: static; }
+      header h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Matrix rain canvas (shown after login) -->
+  <canvas id="matrix-canvas"></canvas>
 
   <!-- Login Overlay -->
   <div id="login-overlay">
@@ -344,26 +497,26 @@
     </div>
     <div id="overlay-dim"></div>
     <div id="login-box">
-      <h2>Welcome</h2>
-      <p>Enter the password to view the Brabham</p>
-      <input type="password" id="password-input" placeholder="Password" onkeydown="if(event.key==='Enter') checkPassword()" />
-      <button onclick="checkPassword()">Enter</button>
-      <div id="login-error">Incorrect password. Try again.</div>
+      <h2>ACCESS</h2>
+      <p>// ENTER AUTHORIZATION CODE</p>
+      <input type="password" id="password-input" placeholder="_ _ _ _ _ _ _ _" onkeydown="if(event.key==='Enter') checkPassword()" />
+      <button onclick="checkPassword()">EXECUTE</button>
+      <div id="login-error">// ACCESS DENIED — TRY AGAIN</div>
     </div>
-    <button id="unmute-btn" onclick="toggleMute()">Unmute</button>
+    <button id="unmute-btn" onclick="toggleMute()">[ UNMUTE ]</button>
   </div>
 
   <div id="portfolio-content">
 
     <header>
-      <h1>Abdullahi Mahamud</h1>
-      <p>Personal Projects Portfolio</p>
+      <h1>ABDULLAHI MAHAMUD</h1>
+      <p>// ENGINEERING STUDENT — ROBOTICS &amp; AUTOMATION</p>
     </header>
 
     <main>
 
       <!-- Projects -->
-      <h2 class="section-title">Projects</h2>
+      <h2 class="section-title">PROJECTS</h2>
       <div class="projects-grid">
 
         <div class="project-card">
@@ -374,8 +527,8 @@
             <span class="tag">CSS</span>
           </div>
           <div class="links">
-            <a href="#">GitHub</a>
-            <a href="#">Live Demo</a>
+            <a href="#">[ GitHub ]</a>
+            <a href="#">[ Live ]</a>
           </div>
         </div>
 
@@ -386,56 +539,57 @@
             <span class="tag">Python</span>
           </div>
           <div class="links">
-            <a href="#">GitHub</a>
+            <a href="#">[ GitHub ]</a>
           </div>
         </div>
 
         <div class="project-card">
-          <h3>Project Name</h3>
-          <p>Short description of what this project does and what you built.</p>
+          <h3>Study Commitment Tracker</h3>
+          <p>84-day personal study tracker with daily task rotation, exam markers, streak tracking and local persistence.</p>
           <div class="tags">
-            <span class="tag">JavaScript</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JS</span>
           </div>
           <div class="links">
-            <a href="#">GitHub</a>
-            <a href="#">Live Demo</a>
+            <a href="https://github.com/Brabham1/-portfolio">[ GitHub ]</a>
           </div>
         </div>
 
       </div>
 
       <!-- Study Commitment Tracker -->
-      <h2 class="section-title" style="margin-top:70px">Study Commitment Tracker</h2>
+      <h2 class="section-title" style="margin-top:70px">STUDY TRACKER</h2>
 
       <div class="tr-wrap">
 
         <div class="tr-cal-panel">
-          <h3>Mar 15 &rarr; Jun 5, 2026</h3>
+          <h3>MAR 15 → JUN 5, 2026</h3>
           <div class="tr-day-headers">
-            <div class="tr-day-header">Mon</div>
-            <div class="tr-day-header">Tue</div>
-            <div class="tr-day-header">Wed</div>
-            <div class="tr-day-header">Thu</div>
-            <div class="tr-day-header">Fri</div>
-            <div class="tr-day-header">Sat</div>
-            <div class="tr-day-header">Sun</div>
+            <div class="tr-day-header">MON</div>
+            <div class="tr-day-header">TUE</div>
+            <div class="tr-day-header">WED</div>
+            <div class="tr-day-header">THU</div>
+            <div class="tr-day-header">FRI</div>
+            <div class="tr-day-header">SAT</div>
+            <div class="tr-day-header">SUN</div>
           </div>
           <div class="tr-cal-grid" id="tr-calendar"></div>
           <div class="tr-legend">
-            <div class="tr-legend-item"><div class="tr-legend-dot" style="background:#e8f5e9;border:1px solid #c8e6c9"></div> All done</div>
-            <div class="tr-legend-item"><div class="tr-legend-dot" style="background:#fff8e1;border:1px solid #ffe082"></div> Partial</div>
-            <div class="tr-legend-item"><div class="tr-legend-dot" style="border:2px solid #6c63ff"></div> Today</div>
-            <div class="tr-legend-item"><div class="tr-legend-dot" style="border:2px solid #e53935"></div> Exam day</div>
+            <div class="tr-legend-item"><div class="tr-legend-dot" style="background:rgba(0,255,65,0.12);border:1px solid rgba(0,255,65,0.3)"></div> DONE</div>
+            <div class="tr-legend-item"><div class="tr-legend-dot" style="background:rgba(255,200,0,0.1);border:1px solid rgba(255,200,0,0.3)"></div> PARTIAL</div>
+            <div class="tr-legend-item"><div class="tr-legend-dot" style="border:1px solid #00ff41;box-shadow:0 0 4px rgba(0,255,65,0.4)"></div> TODAY</div>
+            <div class="tr-legend-item"><div class="tr-legend-dot" style="border:1px solid #ff0040;box-shadow:0 0 4px rgba(255,0,64,0.4)"></div> EXAM</div>
           </div>
         </div>
 
         <div class="tr-tasks-panel">
-          <h3>Daily Tasks</h3>
+          <h3>DAILY TASKS</h3>
           <div class="tr-date-label" id="tr-date-label"></div>
           <div id="tr-task-list"></div>
           <div class="tr-progress-section">
             <div class="tr-progress-row">
-              <span id="tr-prog-text">0 / 3 completed</span>
+              <span id="tr-prog-text">0 / 4 completed</span>
               <span id="tr-prog-pct">0%</span>
             </div>
             <div class="tr-progress-track">
@@ -449,23 +603,53 @@
 
     </main>
 
-    <footer>
-      &copy; 2026 Abdullahi Mahamud
-    </footer>
+    <footer>&copy; 2026 ABDULLAHI MAHAMUD // ALL RIGHTS RESERVED</footer>
 
   </div>
 
   <script>
+    /* ── Matrix Rain ── */
+    (function () {
+      var canvas  = document.getElementById('matrix-canvas');
+      var ctx     = canvas.getContext('2d');
+      var chars   = 'アカサタナハマヤラワガザダバパ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>{}[]|/\\';
+      var fontSize = 13;
+      var drops   = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px monospace';
+        for (var i = 0; i < drops.length; i++) {
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      setInterval(draw, 40);
+    })();
+
     /* ── Portfolio JS ── */
-    var muted = true;
+    var muted    = true;
     var VID_START = 0;
     var VID_END   = 200;
 
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       var video = document.getElementById('bg-video');
       video.currentTime = VID_START;
       video.play();
-      video.addEventListener('timeupdate', function() {
+      video.addEventListener('timeupdate', function () {
         if (video.currentTime >= VID_END) video.currentTime = VID_START;
       });
     });
@@ -473,21 +657,16 @@
     function toggleMute() {
       var video = document.getElementById('bg-video');
       var btn   = document.getElementById('unmute-btn');
-      if (muted) {
-        video.muted = false; video.volume = 1;
-        btn.textContent = 'Mute'; muted = false;
-      } else {
-        video.muted = true;
-        btn.textContent = 'Unmute'; muted = true;
-      }
+      if (muted) { video.muted = false; video.volume = 1; btn.textContent = '[ MUTE ]'; muted = false; }
+      else        { video.muted = true;                    btn.textContent = '[ UNMUTE ]'; muted = true; }
     }
 
     function checkPassword() {
       var input = document.getElementById('password-input').value;
       if (input === 'Brabham123') {
         document.getElementById('bg-video').pause();
-        document.getElementById('login-overlay').style.display  = 'none';
-        document.getElementById('portfolio-content').style.display = 'block';
+        document.getElementById('login-overlay').style.display       = 'none';
+        document.getElementById('portfolio-content').style.display   = 'block';
       } else {
         document.getElementById('login-error').style.display = 'block';
         document.getElementById('password-input').value = '';
@@ -497,24 +676,23 @@
 
     /* ── Tracker JS ── */
     (function () {
-      var TR_START       = new Date(2026, 2, 15); // March 15, 2026
-      var TR_TOTAL_DAYS  = 83;                    // ends June 5, 2026
-      var TR_STORAGE_KEY = 'study_tracker_v1';
+      var TR_START      = new Date(2026, 2, 15);
+      var TR_TOTAL_DAYS = 83;
+      var TR_STORE      = 'study_tracker_v1';
 
-      var TR_TASKS_DAILY = [
+      var TR_DAILY = [
         { id: 'matte2',   label: 'Matte 2 — 3 hours' },
         { id: 'exfil',    label: 'Exfil — 1 hour' },
         { id: 'training', label: 'Training / walking — 1 hour' },
       ];
 
-      var TR_TASKS_FOCUS = [
-        { id: 'dyn',   label: 'Dynamisk systemer 2 — study session' },
-        { id: 'ind',   label: 'Industriell styresystemer — study session' },
-        { id: 'intel', label: 'Intelligente systemer — study session' },
-        { id: 'mek',   label: 'Mekatronikk med ROS2 — study session' },
+      var TR_FOCUS = [
+        { id: 'dyn',   label: 'Dynamisk systemer 2' },
+        { id: 'ind',   label: 'Industriell styresystemer' },
+        { id: 'intel', label: 'Intelligente systemer' },
+        { id: 'mek',   label: 'Mekatronikk med ROS2' },
       ];
 
-      // Edit these to your real exam dates
       var TR_EXAMS = [
         { date: '2026-05-20', subject: 'Exfil' },
         { date: '2026-05-25', subject: 'Matte 2' },
@@ -524,189 +702,97 @@
         { date: '2026-06-04', subject: 'Intelligente systemer' },
       ];
 
-      var TR_EXAM_MAP = {};
-      TR_EXAMS.forEach(function(e) { TR_EXAM_MAP[e.date] = e.subject; });
+      var EXAM_MAP = {};
+      TR_EXAMS.forEach(function (e) { EXAM_MAP[e.date] = e.subject; });
 
-      var TR_MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var TR_MONTHS_LONG  = ['January','February','March','April','May','June',
-                             'July','August','September','October','November','December'];
-      var TR_DAYS_LONG    = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var MS   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var ML   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-      function trKey(d) {
-        return d.getFullYear() + '-' +
-               String(d.getMonth()+1).padStart(2,'0') + '-' +
-               String(d.getDate()).padStart(2,'0');
+      function key(d)    { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+      function shift(d,n){ var x=new Date(d); x.setDate(x.getDate()+n); return x; }
+      function fromKey(k){ var p=k.split('-').map(Number); return new Date(p[0],p[1]-1,p[2]); }
+      function label(d)  { return DAYS[d.getDay()].slice(0,3)+', '+ML[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
+      function load()    { try{ return JSON.parse(localStorage.getItem(TR_STORE))||{}; } catch(e){ return {}; } }
+      function save(d)   { localStorage.setItem(TR_STORE, JSON.stringify(d)); }
+
+      function tasksFor(k) {
+        var dow = fromKey(k).getDay();
+        if (dow === 2 || dow === 3) return TR_DAILY.concat([TR_FOCUS.find(function(t){ return t.id==='ind'; })]);
+        var rot = TR_FOCUS.filter(function(t){ return t.id!=='ind'; });
+        var idx = Math.round((fromKey(k)-TR_START)/86400000);
+        return TR_DAILY.concat([rot[idx%rot.length]]);
       }
 
-      function trShift(date, n) {
-        var d = new Date(date);
-        d.setDate(d.getDate() + n);
-        return d;
+      function status(k, data) {
+        var day=data[k]; if(!day) return 'none';
+        var tasks=tasksFor(k);
+        var n=tasks.filter(function(t){ return day[t.id]; }).length;
+        if(n===0) return 'none'; if(n===tasks.length) return 'full'; return 'partial';
       }
 
-      function trFromKey(key) {
-        var p = key.split('-').map(Number);
-        return new Date(p[0], p[1]-1, p[2]);
+      function streak(data) {
+        var s=0, d=new Date(TR_START), lim=key(new Date());
+        while(key(d)<=lim){ if(status(key(d),data)==='full') s++; else s=0; d=shift(d,1); }
+        return s;
       }
 
-      function trLabel(d) {
-        return TR_DAYS_LONG[d.getDay()].slice(0,3) + ', ' +
-               TR_MONTHS_LONG[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-      }
+      var TODAY = key(new Date());
+      var TR_END = key(shift(TR_START, TR_TOTAL_DAYS-1));
+      var sel    = (TODAY>=key(TR_START)&&TODAY<=TR_END) ? TODAY : key(TR_START);
+      var data   = load();
 
-      function trLoad() {
-        try { return JSON.parse(localStorage.getItem(TR_STORAGE_KEY)) || {}; }
-        catch(e) { return {}; }
-      }
-
-      function trSave(data) {
-        localStorage.setItem(TR_STORAGE_KEY, JSON.stringify(data));
-      }
-
-      // Industriell styresystemer fixed on Tue(2) + Wed(3); others rotate
-      function trTasksFor(key) {
-        var dow = trFromKey(key).getDay();
-        if (dow === 2 || dow === 3) {
-          return TR_TASKS_DAILY.concat([TR_TASKS_FOCUS.find(function(t){ return t.id === 'ind'; })]);
-        }
-        var rotating = TR_TASKS_FOCUS.filter(function(t){ return t.id !== 'ind'; });
-        var idx = Math.round((trFromKey(key) - TR_START) / 86400000);
-        return TR_TASKS_DAILY.concat([rotating[idx % rotating.length]]);
-      }
-
-      function trStatus(key, data) {
-        var day = data[key];
-        if (!day) return 'none';
-        var tasks = trTasksFor(key);
-        var n = tasks.filter(function(t){ return day[t.id]; }).length;
-        if (n === 0)            return 'none';
-        if (n === tasks.length) return 'full';
-        return 'partial';
-      }
-
-      function trStreak(data) {
-        var streak = 0;
-        var d      = new Date(TR_START);
-        var limit  = trKey(new Date());
-        while (trKey(d) <= limit) {
-          if (trStatus(trKey(d), data) === 'full') streak++;
-          else streak = 0;
-          d = trShift(d, 1);
-        }
-        return streak;
-      }
-
-      var TODAY    = trKey(new Date());
-      var TR_END   = trKey(trShift(TR_START, TR_TOTAL_DAYS - 1));
-      var trSelected = (TODAY >= trKey(TR_START) && TODAY <= TR_END) ? TODAY : trKey(TR_START);
-      var trData   = trLoad();
-
-      function trRenderCalendar() {
+      function renderCal() {
         var grid = document.getElementById('tr-calendar');
         grid.innerHTML = '';
-
-        var startDow = (TR_START.getDay() + 6) % 7;
-        for (var i = 0; i < startDow; i++) {
-          var blank = document.createElement('div');
-          blank.className = 'tr-day-cell tr-empty';
-          grid.appendChild(blank);
-        }
-
-        for (var j = 0; j < TR_TOTAL_DAYS; j++) {
-          (function(idx) {
-            var d      = trShift(TR_START, idx);
-            var key    = trKey(d);
-            var stat   = trStatus(key, trData);
-            var isExam = !!TR_EXAM_MAP[key];
-
-            var cell = document.createElement('div');
-            var cls  = ['tr-day-cell'];
-            if (key === TODAY)         cls.push('tr-today');
-            if (isExam)                cls.push('tr-exam-day');
-            if (key === trSelected)    cls.push('tr-selected');
-            else if (stat === 'full')  cls.push('tr-full');
-            else if (stat === 'partial') cls.push('tr-partial');
-            cell.className = cls.join(' ');
-
-            var dotHTML = '';
-            if (stat !== 'none' && key !== trSelected) {
-              var color = stat === 'full' ? '#4caf50' : '#ffb300';
-              dotHTML = '<span class="tr-status-dot" style="background:' + color + '"></span>';
-            }
-            var examBadge = isExam ? '<span class="tr-exam-badge">EXAM</span>' : '';
-
-            cell.innerHTML =
-              '<span class="tr-day-number">' + d.getDate() + '</span>' +
-              '<span class="tr-day-month">'  + TR_MONTHS_SHORT[d.getMonth()] + '</span>' +
-              (examBadge || dotHTML);
-
-            cell.addEventListener('click', function() { trSelected = key; trRender(); });
+        var off = (TR_START.getDay()+6)%7;
+        for(var i=0;i<off;i++){ var b=document.createElement('div'); b.className='tr-day-cell tr-empty'; grid.appendChild(b); }
+        for(var j=0;j<TR_TOTAL_DAYS;j++){
+          (function(idx){
+            var d=shift(TR_START,idx), k=key(d), st=status(k,data), ex=!!EXAM_MAP[k];
+            var cell=document.createElement('div');
+            var cls=['tr-day-cell'];
+            if(k===TODAY) cls.push('tr-today');
+            if(ex) cls.push('tr-exam-day');
+            if(k===sel) cls.push('tr-selected');
+            else if(st==='full') cls.push('tr-full');
+            else if(st==='partial') cls.push('tr-partial');
+            cell.className=cls.join(' ');
+            var dot='';
+            if(st!=='none'&&k!==sel){ var c=st==='full'?'#00ff41':'#ffb300'; dot='<span class="tr-status-dot" style="background:'+c+'"></span>'; }
+            var badge=ex?'<span class="tr-exam-badge">EXAM</span>':'';
+            cell.innerHTML='<span class="tr-day-number">'+d.getDate()+'</span><span class="tr-day-month">'+MS[d.getMonth()]+'</span>'+(badge||dot);
+            cell.addEventListener('click',function(){ sel=k; render(); });
             grid.appendChild(cell);
           })(j);
         }
       }
 
-      function trRenderTasks() {
-        document.getElementById('tr-date-label').textContent = trLabel(trFromKey(trSelected));
-
-        var list    = document.getElementById('tr-task-list');
-        var dayData = trData[trSelected] || {};
-        var tasks   = trTasksFor(trSelected);
-        list.innerHTML = '';
-
-        if (TR_EXAM_MAP[trSelected]) {
-          var banner = document.createElement('div');
-          banner.className = 'tr-exam-banner';
-          banner.innerHTML = '📝 EXAM: ' + TR_EXAM_MAP[trSelected];
-          list.appendChild(banner);
-        }
-
-        tasks.forEach(function(task) {
-          var checked = !!dayData[task.id];
-          var item    = document.createElement('div');
-          item.className = 'tr-task-item' + (checked ? ' tr-done' : '');
-
-          var cb = document.createElement('input');
-          cb.type    = 'checkbox';
-          cb.checked = checked;
-          cb.id      = 'tr_cb_' + task.id;
-
-          var lbl = document.createElement('label');
-          lbl.className   = 'tr-task-text';
-          lbl.htmlFor     = 'tr_cb_' + task.id;
-          lbl.textContent = task.label;
-
-          cb.addEventListener('change', function() {
-            if (!trData[trSelected]) trData[trSelected] = {};
-            trData[trSelected][task.id] = cb.checked;
-            trSave(trData);
-            trRender();
-          });
-
-          item.appendChild(cb);
-          item.appendChild(lbl);
-          list.appendChild(item);
+      function renderTasks() {
+        document.getElementById('tr-date-label').textContent = '// '+label(fromKey(sel));
+        var list=document.getElementById('tr-task-list');
+        var dd=data[sel]||{}, tasks=tasksFor(sel);
+        list.innerHTML='';
+        if(EXAM_MAP[sel]){ var ban=document.createElement('div'); ban.className='tr-exam-banner'; ban.innerHTML='[ EXAM ] '+EXAM_MAP[sel]; list.appendChild(ban); }
+        tasks.forEach(function(task){
+          var chk=!!dd[task.id];
+          var item=document.createElement('div'); item.className='tr-task-item'+(chk?' tr-done':'');
+          var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=chk; cb.id='tr_cb_'+task.id;
+          var lbl=document.createElement('label'); lbl.className='tr-task-text'; lbl.htmlFor='tr_cb_'+task.id; lbl.textContent='> '+task.label;
+          cb.addEventListener('change',function(){ if(!data[sel]) data[sel]={}; data[sel][task.id]=cb.checked; save(data); render(); });
+          item.appendChild(cb); item.appendChild(lbl); list.appendChild(item);
         });
-
-        var done = tasks.filter(function(t){ return !!(trData[trSelected] || {})[t.id]; }).length;
-        var pct  = Math.round((done / tasks.length) * 100);
-        document.getElementById('tr-prog-text').textContent = done + ' / ' + tasks.length + ' completed';
-        document.getElementById('tr-prog-pct').textContent  = pct + '%';
-        document.getElementById('tr-prog-fill').style.width = pct + '%';
-
-        var streak = trStreak(trData);
-        var box    = document.getElementById('tr-streak-box');
-        box.innerHTML = streak > 0
-          ? 'Current streak: <strong>' + streak + '</strong> day' + (streak !== 1 ? 's' : '') + ' 🔥'
-          : 'Complete all tasks today to start your streak!';
+        var done=tasks.filter(function(t){ return !!(data[sel]||{})[t.id]; }).length;
+        var pct=Math.round((done/tasks.length)*100);
+        document.getElementById('tr-prog-text').textContent=done+' / '+tasks.length+' completed';
+        document.getElementById('tr-prog-pct').textContent=pct+'%';
+        document.getElementById('tr-prog-fill').style.width=pct+'%';
+        var s=streak(data), box=document.getElementById('tr-streak-box');
+        box.innerHTML=s>0?'STREAK: <strong>'+s+'</strong> DAY'+(s!==1?'S':'')+'  🔥':'// COMPLETE ALL TASKS TO START STREAK';
       }
 
-      function trRender() {
-        trRenderCalendar();
-        trRenderTasks();
-      }
-
-      trRender();
+      function render() { renderCal(); renderTasks(); }
+      render();
     })();
   </script>
 
