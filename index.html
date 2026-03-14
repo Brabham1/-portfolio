@@ -872,13 +872,16 @@
             save(data);
             if(cb.checked){
               var ac=new (window.AudioContext||window.webkitAudioContext)();
-              var o=ac.createOscillator(); var g=ac.createGain();
-              o.connect(g); g.connect(ac.destination);
-              o.type='sine'; o.frequency.setValueAtTime(880,ac.currentTime);
-              o.frequency.exponentialRampToValueAtTime(1320,ac.currentTime+0.08);
-              g.gain.setValueAtTime(0.18,ac.currentTime);
-              g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.25);
-              o.start(ac.currentTime); o.stop(ac.currentTime+0.25);
+              [[0,1500,0.12],[0.04,2000,0.10],[0.09,2500,0.08],[0.15,3000,0.06]].forEach(function(n){
+                var o=ac.createOscillator(); var g=ac.createGain();
+                o.connect(g); g.connect(ac.destination);
+                o.type='triangle';
+                o.frequency.setValueAtTime(n[1],ac.currentTime+n[0]);
+                o.frequency.exponentialRampToValueAtTime(n[1]*1.04,ac.currentTime+n[0]+0.03);
+                g.gain.setValueAtTime(n[2],ac.currentTime+n[0]);
+                g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+n[0]+0.18);
+                o.start(ac.currentTime+n[0]); o.stop(ac.currentTime+n[0]+0.18);
+              });
             }
             render();
           });
