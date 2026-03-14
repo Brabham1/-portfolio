@@ -866,7 +866,22 @@
           var item=document.createElement('div'); item.className='tr-task-item'+(chk?' tr-done':'');
           var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=chk; cb.id='tr_cb_'+task.id;
           var lbl=document.createElement('label'); lbl.className='tr-task-text'; lbl.htmlFor='tr_cb_'+task.id; lbl.textContent='> '+task.label;
-          cb.addEventListener('change',function(){ if(!data[sel]) data[sel]={}; data[sel][task.id]=cb.checked; save(data); render(); });
+          cb.addEventListener('change',function(){
+            if(!data[sel]) data[sel]={};
+            data[sel][task.id]=cb.checked;
+            save(data);
+            if(cb.checked){
+              var ac=new (window.AudioContext||window.webkitAudioContext)();
+              var o=ac.createOscillator(); var g=ac.createGain();
+              o.connect(g); g.connect(ac.destination);
+              o.type='sine'; o.frequency.setValueAtTime(880,ac.currentTime);
+              o.frequency.exponentialRampToValueAtTime(1320,ac.currentTime+0.08);
+              g.gain.setValueAtTime(0.18,ac.currentTime);
+              g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.25);
+              o.start(ac.currentTime); o.stop(ac.currentTime+0.25);
+            }
+            render();
+          });
           item.appendChild(cb); item.appendChild(lbl); list.appendChild(item);
         });
         var done=tasks.filter(function(t){ return !!(data[sel]||{})[t.id]; }).length;
