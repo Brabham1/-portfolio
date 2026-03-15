@@ -355,6 +355,9 @@
     .tr-day-cell.tr-mappe-day { border-color: #ff9900 !important; box-shadow: 0 0 6px rgba(255,153,0,0.4); }
     .tr-day-cell.tr-mappe-day .tr-day-month { color: #ff9900 !important; }
     .tr-day-cell.tr-selected.tr-mappe-day .tr-day-month { color: rgba(0,0,0,0.7) !important; }
+    .tr-day-cell.tr-hjemme-day { border-color: #aa00ff !important; box-shadow: 0 0 6px rgba(170,0,255,0.4); }
+    .tr-day-cell.tr-hjemme-day .tr-day-month { color: #aa00ff !important; }
+    .tr-day-cell.tr-selected.tr-hjemme-day .tr-day-month { color: rgba(0,0,0,0.7) !important; }
 
     .tr-day-number { font-size: 0.85rem; font-weight: 600; line-height: 1; color: #c9ffdb; }
     .tr-day-month  { font-size: 0.55rem; color: rgba(0,255,65,0.5); margin-top: 2px; }
@@ -784,11 +787,14 @@
       ];
 
       var TR_EXAMS = [
-        { date: '2026-05-05', subject: 'Intelligente systemer',   type: 'exam' },
-        { date: '2026-05-06', subject: 'Exfil',                   type: 'exam' },
-        { date: '2026-05-07', subject: 'Matte 2',                 type: 'exam' },
-        { date: '2026-05-19', subject: 'Mekatronikk med ROS2',    type: 'mappe' },
-        { date: '2026-05-22', subject: 'Dynamisk systemer 2',     type: 'mappe' },
+        { date: '2026-04-17', subject: 'Exfil', type: 'hjemme' },
+        { date: '2026-04-18', subject: 'Exfil', type: 'hjemme' },
+        { date: '2026-04-19', subject: 'Exfil', type: 'hjemme' },
+        { date: '2026-05-05', subject: 'Intelligente systemer',     type: 'exam' },
+        { date: '2026-05-06', subject: 'Exfil',                     type: 'exam' },
+        { date: '2026-05-07', subject: 'Matte 2',                   type: 'exam' },
+        { date: '2026-05-19', subject: 'Mekatronikk med ROS2',      type: 'mappe' },
+        { date: '2026-05-22', subject: 'Dynamisk systemer 2',       type: 'mappe' },
         { date: '2026-06-04', subject: 'Industriell styresystemer', type: 'mappe' },
       ];
 
@@ -807,8 +813,9 @@
       function save(d)   { localStorage.setItem(TR_STORE, JSON.stringify(d)); }
 
       function tasksFor(k) {
-        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'exam') return [{ id: 'exam_'+k, label: EXAM_MAP[k].subject + ' — EKSAMEN' }];
-        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'mappe') return [{ id: 'mappe_'+k, label: EXAM_MAP[k].subject + ' — MAPPE INNLEVERING' }];
+        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'exam')   return [{ id: 'exam_'+k,   label: EXAM_MAP[k].subject + ' — EKSAMEN' }];
+        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'mappe')  return [{ id: 'mappe_'+k,  label: EXAM_MAP[k].subject + ' — MAPPE INNLEVERING' }];
+        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'hjemme') return [{ id: 'hjemme_'+k, label: EXAM_MAP[k].subject + ' — HJEMMEEKSAMEN' }];
         var dow = fromKey(k).getDay();
         var base = TR_DAILY.slice();
         if (dow === 0 || dow === 3 || dow === 5) base = base.concat([TR_EXFIL]);
@@ -848,7 +855,7 @@
             var cell=document.createElement('div');
             var cls=['tr-day-cell'];
             if(k===TODAY) cls.push('tr-today');
-            if(ex) cls.push('tr-exam-day', ex.type==='mappe' ? 'tr-mappe-day' : '');
+            if(ex) cls.push('tr-exam-day', ex.type==='mappe' ? 'tr-mappe-day' : ex.type==='hjemme' ? 'tr-hjemme-day' : '');
             if(k===sel) cls.push('tr-selected');
             else if(st==='full') cls.push('tr-full');
             else if(st==='partial') cls.push('tr-partial');
@@ -868,7 +875,7 @@
         var list=document.getElementById('tr-task-list');
         var dd=data[sel]||{}, tasks=tasksFor(sel);
         list.innerHTML='';
-        if(EXAM_MAP[sel]){ var ban=document.createElement('div'); ban.className='tr-exam-banner'; var entry=EXAM_MAP[sel]; ban.innerHTML=(entry.type==='mappe' ? '[ MAPPE INNLEVERING ] ' : '[ EKSAMEN ] ')+entry.subject; list.appendChild(ban); }
+        if(EXAM_MAP[sel]){ var ban=document.createElement('div'); ban.className='tr-exam-banner'; var entry=EXAM_MAP[sel]; var lbl=entry.type==='mappe'?'[ MAPPE INNLEVERING ]':entry.type==='hjemme'?'[ HJEMMEEKSAMEN ]':'[ EKSAMEN ]'; ban.innerHTML=lbl+' '+entry.subject; list.appendChild(ban); }
         tasks.forEach(function(task){
           var chk=!!dd[task.id];
           var item=document.createElement('div'); item.className='tr-task-item'+(chk?' tr-done':'');
