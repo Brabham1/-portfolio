@@ -806,7 +806,8 @@
       function tasksFor(k) {
         var dow = fromKey(k).getDay();
         if (dow === 2 || dow === 3) return TR_DAILY.concat([TR_FOCUS.find(function(t){ return t.id==='ind'; })]);
-        var rot = TR_FOCUS.filter(function(t){ return t.id!=='ind'; });
+        if (dow === 1 || dow === 4) return TR_DAILY.concat([TR_FOCUS.find(function(t){ return t.id==='dyn'; })]);
+        var rot = TR_FOCUS.filter(function(t){ return t.id!=='ind' && t.id!=='dyn'; });
         var idx = Math.round((fromKey(k)-TR_START)/86400000);
         return TR_DAILY.concat([rot[Math.floor(idx/7)%rot.length]]);
       }
