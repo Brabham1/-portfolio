@@ -774,10 +774,10 @@
       ];
 
       var TR_FOCUS = [
+        { id: 'mek',   label: 'Mekatronikk med ROS2' },
         { id: 'dyn',   label: 'Dynamisk systemer 2' },
         { id: 'ind',   label: 'Industriell styresystemer' },
         { id: 'intel', label: 'Intelligente systemer' },
-        { id: 'mek',   label: 'Mekatronikk med ROS2' },
       ];
 
       var TR_EXAMS = [
@@ -808,7 +808,7 @@
         if (dow === 2 || dow === 3) return TR_DAILY.concat([TR_FOCUS.find(function(t){ return t.id==='ind'; })]);
         var rot = TR_FOCUS.filter(function(t){ return t.id!=='ind'; });
         var idx = Math.round((fromKey(k)-TR_START)/86400000);
-        return TR_DAILY.concat([rot[idx%rot.length]]);
+        return TR_DAILY.concat([rot[Math.floor(idx/7)%rot.length]]);
       }
 
       function status(k, data) {
