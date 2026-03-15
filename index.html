@@ -15,6 +15,62 @@
       color: #c9ffdb;
       min-height: 100vh;
       overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cyberpunk Cursor ── */
+    #cyber-cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+    }
+    #cyber-cursor .cur-ring {
+      width: 28px; height: 28px;
+      border: 1px solid #00ff41;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,255,65,0.6), inset 0 0 6px rgba(0,255,65,0.1);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      transition: width 0.12s, height 0.12s, border-color 0.12s;
+    }
+    #cyber-cursor .cur-dot {
+      width: 4px; height: 4px;
+      background: #00ff41;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #00ff41;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    #cyber-cursor .cur-line-h,
+    #cyber-cursor .cur-line-v {
+      position: absolute;
+      background: rgba(0,255,65,0.4);
+      top: 50%; left: 50%;
+    }
+    #cyber-cursor .cur-line-h {
+      width: 10px; height: 1px;
+      transform: translate(10px, -50%);
+    }
+    #cyber-cursor .cur-line-h.left {
+      transform: translate(-20px, -50%);
+    }
+    #cyber-cursor .cur-line-v {
+      width: 1px; height: 10px;
+      transform: translate(-50%, 10px);
+    }
+    #cyber-cursor .cur-line-v.top {
+      transform: translate(-50%, -20px);
+    }
+    body:has(a:hover) #cyber-cursor .cur-ring,
+    body:has(button:hover) #cyber-cursor .cur-ring,
+    body:has(input:hover) #cyber-cursor .cur-ring,
+    body:has(label:hover) #cyber-cursor .cur-ring {
+      width: 40px; height: 40px;
+      border-color: #00d4ff;
+      box-shadow: 0 0 10px rgba(0,212,255,0.7);
     }
 
     /* ── Matrix canvas background ── */
@@ -427,6 +483,16 @@
 </head>
 <body>
 
+  <!-- Cyberpunk cursor -->
+  <div id="cyber-cursor">
+    <div class="cur-ring"></div>
+    <div class="cur-dot"></div>
+    <div class="cur-line-h"></div>
+    <div class="cur-line-h left"></div>
+    <div class="cur-line-v"></div>
+    <div class="cur-line-v top"></div>
+  </div>
+
   <!-- Matrix rain canvas (shown after login) -->
   <canvas id="matrix-canvas"></canvas>
 
@@ -506,6 +572,15 @@
   </div>
 
   <script>
+    /* ── Cyberpunk Cursor ── */
+    (function () {
+      var el = document.getElementById('cyber-cursor');
+      document.addEventListener('mousemove', function (e) {
+        el.style.left = e.clientX + 'px';
+        el.style.top  = e.clientY + 'px';
+      });
+    })();
+
     /* ── Matrix Rain ── */
     (function () {
       var canvas  = document.getElementById('matrix-canvas');
