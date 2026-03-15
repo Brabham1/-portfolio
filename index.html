@@ -807,6 +807,7 @@
       function save(d)   { localStorage.setItem(TR_STORE, JSON.stringify(d)); }
 
       function tasksFor(k) {
+        if (EXAM_MAP[k] && EXAM_MAP[k].type === 'exam') return [{ id: 'exam_'+k, label: EXAM_MAP[k].subject + ' — EKSAMEN' }];
         var dow = fromKey(k).getDay();
         var base = TR_DAILY.slice();
         if (dow === 0 || dow === 3 || dow === 5) base = base.concat([TR_EXFIL]);
