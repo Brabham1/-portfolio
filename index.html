@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abdullahi Mahamud — Portfolio</title>
+  <title>Abdullahi Mahamud — Study Tracker</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
 
@@ -103,71 +103,6 @@
     }
 
     .section-title::before { content: '> '; opacity: 0.6; }
-
-    /* ── Project cards ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .project-card {
-      background: #0d1117;
-      border: 1px solid rgba(0,255,65,0.25);
-      border-radius: 8px;
-      padding: 24px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: #00ff41;
-      box-shadow: 0 0 10px #00ff41;
-    }
-
-    .project-card:hover {
-      border-color: #00ff41;
-      box-shadow: 0 0 20px rgba(0,255,65,0.2);
-      transform: translateY(-3px);
-    }
-
-    .project-card h3 {
-      font-family: 'Orbitron', monospace;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      color: #00ff41;
-      text-shadow: 0 0 8px rgba(0,255,65,0.4);
-    }
-
-    .project-card p { font-size: 0.88rem; line-height: 1.7; color: #8b9467; }
-
-    .project-card .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .tag {
-      background: rgba(0,255,65,0.08);
-      color: #00ff41;
-      border: 1px solid rgba(0,255,65,0.3);
-      border-radius: 4px;
-      padding: 3px 10px;
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-    }
-
-    .project-card .links { margin-top: 14px; }
-    .project-card .links a {
-      color: #00d4ff;
-      text-decoration: none;
-      font-size: 0.85rem;
-      margin-right: 14px;
-      text-shadow: 0 0 6px rgba(0,212,255,0.4);
-      transition: text-shadow 0.2s;
-    }
-    .project-card .links a:hover { text-shadow: 0 0 12px rgba(0,212,255,0.9); }
 
     /* ── Footer ── */
     footer {
@@ -488,77 +423,6 @@
       header h1 { font-size: 1.8rem; }
     }
 
-    /* ── Claude Terminal ── */
-    .term-wrap {
-      background: #050505;
-      border: 1px solid rgba(0,255,65,0.3);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(0,255,65,0.08);
-    }
-
-    .term-header {
-      background: rgba(0,255,65,0.06);
-      border-bottom: 1px solid rgba(0,255,65,0.15);
-      padding: 0.6rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.7rem;
-      color: rgba(0,255,65,0.5);
-      letter-spacing: 2px;
-    }
-
-    .term-status-dot { font-size: 0.8rem; }
-    .term-status-dot.online  { color: #00ff41; text-shadow: 0 0 6px #00ff41; }
-    .term-status-dot.offline { color: rgba(0,255,65,0.25); }
-
-    .term-output {
-      min-height: 280px;
-      max-height: 420px;
-      overflow-y: auto;
-      padding: 1rem 1.2rem;
-      font-size: 0.82rem;
-      line-height: 1.8;
-    }
-    .term-output::-webkit-scrollbar       { width: 3px; }
-    .term-output::-webkit-scrollbar-track { background: transparent; }
-    .term-output::-webkit-scrollbar-thumb { background: rgba(0,255,65,0.2); border-radius: 2px; }
-
-    .term-line         { margin-bottom: 1px; word-break: break-word; }
-    .term-line.tsys    { color: rgba(0,255,65,0.35); font-size: 0.75rem; }
-    .term-line.tuser   { color: #00d4ff; }
-    .term-line.tuser::before { content: '> '; color: rgba(0,212,255,0.5); }
-    .term-line.tai     { color: #c9ffdb; }
-    .term-line.tai::before   { content: 'NEXUS ▸ '; color: #00ff41; font-size: 0.72rem; letter-spacing: 1px; }
-    .term-line.terr    { color: #ff0040; }
-
-    .term-cursor {
-      display: inline-block;
-      width: 7px; height: 13px;
-      background: #00ff41;
-      vertical-align: text-bottom;
-      margin-left: 2px;
-      animation: tcursor 1s step-end infinite;
-    }
-    @keyframes tcursor { 0%,100%{opacity:1} 50%{opacity:0} }
-
-    .term-input-row {
-      display: flex;
-      align-items: center;
-      border-top: 1px solid rgba(0,255,65,0.12);
-      padding: 0.7rem 1.2rem;
-      gap: 10px;
-    }
-    .term-prompt { color: #00ff41; text-shadow: 0 0 6px rgba(0,255,65,0.5); font-size: 1rem; flex-shrink: 0; }
-    .term-input  {
-      flex: 1; background: transparent; border: none; outline: none;
-      color: #00d4ff; font-family: 'Share Tech Mono', monospace;
-      font-size: 0.85rem; caret-color: #00ff41; letter-spacing: 1px;
-    }
-    .term-input::placeholder { color: rgba(0,255,65,0.18); }
-    .term-input:disabled { opacity: 0.5; }
   </style>
 </head>
 <body>
@@ -587,57 +451,13 @@
   <div id="portfolio-content">
 
     <header>
-      <h1>ABDULLAHI MAHAMUD</h1>
-      <p>// ENGINEERING STUDENT — ROBOTICS &amp; AUTOMATION</p>
+      <h1>STUDY TRACKER</h1>
+      <p>// ABDULLAHI MAHAMUD — MAR 15 → JUN 5, 2026</p>
     </header>
 
     <main>
 
-      <!-- Projects -->
-      <h2 class="section-title">PROJECTS</h2>
-      <div class="projects-grid">
-
-        <div class="project-card">
-          <h3>Project Name</h3>
-          <p>Short description of what this project does and what you built.</p>
-          <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-          </div>
-          <div class="links">
-            <a href="#">[ GitHub ]</a>
-            <a href="#">[ Live ]</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <h3>Project Name</h3>
-          <p>Short description of what this project does and what you built.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-          </div>
-          <div class="links">
-            <a href="#">[ GitHub ]</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <h3>Study Commitment Tracker</h3>
-          <p>84-day personal study tracker with daily task rotation, exam markers, streak tracking and local persistence.</p>
-          <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JS</span>
-          </div>
-          <div class="links">
-            <a href="https://github.com/Brabham1/-portfolio">[ GitHub ]</a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Study Commitment Tracker -->
-      <h2 class="section-title" style="margin-top:70px">STUDY TRACKER</h2>
+      <h2 class="section-title">STUDY TRACKER</h2>
 
       <div class="tr-wrap">
 
@@ -677,20 +497,6 @@
           <div class="tr-streak-box" id="tr-streak-box"></div>
         </div>
 
-      </div>
-
-      <!-- Claude Terminal -->
-      <h2 class="section-title" style="margin-top:70px">CLAUDE TERMINAL</h2>
-      <div class="term-wrap">
-        <div class="term-header">
-          <span>NEXUS — AI TERMINAL // claude-haiku-4-5</span>
-          <span id="term-status" class="term-status-dot offline">● OFFLINE</span>
-        </div>
-        <div class="term-output" id="term-output"></div>
-        <div class="term-input-row">
-          <span class="term-prompt">&gt;</span>
-          <input type="text" class="term-input" id="term-input" placeholder="initializing..." disabled />
-        </div>
       </div>
 
     </main>
@@ -759,7 +565,6 @@
         document.getElementById('bg-video').pause();
         document.getElementById('login-overlay').style.display       = 'none';
         document.getElementById('portfolio-content').style.display   = 'block';
-        termInit();
       } else {
         document.getElementById('login-error').style.display = 'block';
         document.getElementById('password-input').value = '';
@@ -915,198 +720,6 @@
       render();
     })();
 
-  /* ── CLAUDE TERMINAL ── */
-  var termInit = (function(){
-    var KEY_STORE = 'nexus_api_key';
-    var MODEL = 'claude-haiku-4-5-20251001';
-    var history = [];
-    var busy = false;
-
-    return function init() {
-      var out    = document.getElementById('term-output');
-      var inp    = document.getElementById('term-input');
-      var status = document.getElementById('term-status');
-
-      function line(text, cls) {
-        var el = document.createElement('div');
-        el.className = 'term-line ' + (cls || 'tsys');
-        el.textContent = text;
-        out.appendChild(el);
-        out.scrollTop = out.scrollHeight;
-        return el;
-      }
-
-      function clear() {
-        out.innerHTML = '';
-      }
-
-      function setStatus(online) {
-        status.textContent = online ? '● ONLINE' : '● OFFLINE';
-        status.className = 'term-status-dot ' + (online ? 'online' : 'offline');
-      }
-
-      function getKey() { return localStorage.getItem(KEY_STORE); }
-      function setKey(k) { localStorage.setItem(KEY_STORE, k); }
-      function clearKey() { localStorage.removeItem(KEY_STORE); }
-
-      function enableInput(placeholder) {
-        inp.disabled = false;
-        inp.placeholder = placeholder || '';
-        inp.focus();
-      }
-
-      function disableInput() {
-        inp.disabled = true;
-        inp.placeholder = 'processing...';
-      }
-
-      /* ── key setup wizard ── */
-      function setupWizard() {
-        line('[ NEXUS ] API key required to connect.', 'tsys');
-        line('[ NEXUS ] Enter your Anthropic API key below:', 'tsys');
-        line('[ NEXUS ] Key is stored only in your browser localStorage.', 'tsys');
-        enableInput('sk-ant-...');
-
-        inp.onkeydown = function(e) {
-          if (e.key !== 'Enter') return;
-          var val = inp.value.trim();
-          inp.value = '';
-          if (!val) return;
-          if (!val.startsWith('sk-ant-')) {
-            line('[ ERR ] Key must start with sk-ant-  — try again.', 'terr');
-            return;
-          }
-          setKey(val);
-          line('**********', 'tuser');
-          line('[ NEXUS ] Key saved. Connecting...', 'tsys');
-          boot();
-        };
-      }
-
-      /* ── boot sequence after key is present ── */
-      function boot() {
-        setStatus(true);
-        clear();
-        line('╔══════════════════════════════════════╗', 'tsys');
-        line('║   NEXUS — AI TERMINAL  //  ONLINE    ║', 'tsys');
-        line('╚══════════════════════════════════════╝', 'tsys');
-        line('[ SYS ] Model : ' + MODEL, 'tsys');
-        line('[ SYS ] Type  : your message and press Enter', 'tsys');
-        line('[ SYS ] Cmds  : clear | reset key | help', 'tsys');
-        line('', 'tsys');
-        enableInput('ask me anything...');
-        inp.onkeydown = handleInput;
-      }
-
-      /* ── command handler ── */
-      function handleInput(e) {
-        if (e.key !== 'Enter' || busy) return;
-        var msg = inp.value.trim();
-        inp.value = '';
-        if (!msg) return;
-
-        /* special commands */
-        if (msg.toLowerCase() === 'clear') { clear(); return; }
-        if (msg.toLowerCase() === 'reset key') {
-          clearKey();
-          history = [];
-          setStatus(false);
-          clear();
-          setupWizard();
-          return;
-        }
-        if (msg.toLowerCase() === 'help') {
-          line('[ HELP ] clear      — clear terminal output', 'tsys');
-          line('[ HELP ] reset key  — delete API key and re-enter', 'tsys');
-          line('[ HELP ] help       — show this message', 'tsys');
-          return;
-        }
-
-        line(msg, 'tuser');
-        sendToAPI(msg);
-      }
-
-      /* ── streaming API call ── */
-      function sendToAPI(userMsg) {
-        busy = true;
-        disableInput();
-
-        history.push({ role: 'user', content: userMsg });
-
-        var aiLine = line('', 'tai');
-        var fullText = '';
-
-        fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            'x-api-key': getKey(),
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
-          body: JSON.stringify({
-            model: MODEL,
-            max_tokens: 1024,
-            stream: true,
-            system: 'You are NEXUS, a helpful AI assistant embedded in a hacker-themed portfolio terminal. Be concise and knowledgeable. Use plain text only — no markdown formatting.',
-            messages: history
-          })
-        })
-        .then(function(res) {
-          if (!res.ok) {
-            return res.json().then(function(err) {
-              throw new Error(err.error ? err.error.message : 'HTTP ' + res.status);
-            });
-          }
-          var reader = res.body.getReader();
-          var decoder = new TextDecoder();
-          var buffer = '';
-
-          function pump() {
-            return reader.read().then(function(chunk) {
-              if (chunk.done) { finish(); return; }
-              buffer += decoder.decode(chunk.value, { stream: true });
-              var lines = buffer.split('\n');
-              buffer = lines.pop();
-              lines.forEach(function(raw) {
-                if (!raw.startsWith('data: ')) return;
-                var data = raw.slice(6).trim();
-                if (data === '[DONE]') return;
-                try {
-                  var ev = JSON.parse(data);
-                  if (ev.type === 'content_block_delta' && ev.delta && ev.delta.type === 'text_delta') {
-                    fullText += ev.delta.text;
-                    aiLine.textContent = fullText;
-                    out.scrollTop = out.scrollHeight;
-                  }
-                } catch(ex) { /* ignore parse errors */ }
-              });
-              return pump();
-            });
-          }
-          return pump();
-        })
-        .catch(function(err) {
-          line('[ ERR ] ' + err.message, 'terr');
-          if (err.message && err.message.toLowerCase().includes('api key')) {
-            line('[ SYS ] Use "reset key" to update your API key.', 'tsys');
-          }
-        })
-        .finally(function() {
-          if (fullText) history.push({ role: 'assistant', content: fullText });
-          busy = false;
-          enableInput('ask me anything...');
-        });
-      }
-
-      /* ── entry point ── */
-      if (getKey()) {
-        boot();
-      } else {
-        setupWizard();
-      }
-    };
-  })();
   </script>
 
 </body>
