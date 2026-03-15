@@ -352,6 +352,9 @@
     .tr-day-cell.tr-exam-day { border-color: #ff0040 !important; box-shadow: 0 0 6px rgba(255,0,64,0.4); }
     .tr-day-cell.tr-exam-day .tr-day-month { color: #ff0040 !important; }
     .tr-day-cell.tr-selected.tr-exam-day .tr-day-month { color: rgba(0,0,0,0.7) !important; }
+    .tr-day-cell.tr-mappe-day { border-color: #ff9900 !important; box-shadow: 0 0 6px rgba(255,153,0,0.4); }
+    .tr-day-cell.tr-mappe-day .tr-day-month { color: #ff9900 !important; }
+    .tr-day-cell.tr-selected.tr-mappe-day .tr-day-month { color: rgba(0,0,0,0.7) !important; }
 
     .tr-day-number { font-size: 0.85rem; font-weight: 600; line-height: 1; color: #c9ffdb; }
     .tr-day-month  { font-size: 0.55rem; color: rgba(0,255,65,0.5); margin-top: 2px; }
@@ -781,16 +784,16 @@
       ];
 
       var TR_EXAMS = [
-        { date: '2026-05-20', subject: 'Exfil' },
-        { date: '2026-05-25', subject: 'Matte 2' },
-        { date: '2026-05-28', subject: 'Dynamisk systemer 2' },
-        { date: '2026-05-30', subject: 'Mekatronikk med ROS2' },
-        { date: '2026-06-01', subject: 'Industriell styresystemer' },
-        { date: '2026-06-04', subject: 'Intelligente systemer' },
+        { date: '2026-05-05', subject: 'Intelligente systemer',   type: 'exam' },
+        { date: '2026-05-06', subject: 'Exfil',                   type: 'exam' },
+        { date: '2026-05-07', subject: 'Matte 2',                 type: 'exam' },
+        { date: '2026-05-19', subject: 'Mekatronikk med ROS2',    type: 'mappe' },
+        { date: '2026-05-22', subject: 'Dynamisk systemer 2',     type: 'mappe' },
+        { date: '2026-06-04', subject: 'Industriell styresystemer', type: 'mappe' },
       ];
 
       var EXAM_MAP = {};
-      TR_EXAMS.forEach(function (e) { EXAM_MAP[e.date] = e.subject; });
+      TR_EXAMS.forEach(function (e) { EXAM_MAP[e.date] = e; });
 
       var MS   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       var ML   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -839,11 +842,11 @@
         for(var i=0;i<off;i++){ var b=document.createElement('div'); b.className='tr-day-cell tr-empty'; grid.appendChild(b); }
         for(var j=0;j<TR_TOTAL_DAYS;j++){
           (function(idx){
-            var d=shift(TR_START,idx), k=key(d), st=status(k,data), ex=!!EXAM_MAP[k];
+            var d=shift(TR_START,idx), k=key(d), st=status(k,data), ex=EXAM_MAP[k];
             var cell=document.createElement('div');
             var cls=['tr-day-cell'];
             if(k===TODAY) cls.push('tr-today');
-            if(ex) cls.push('tr-exam-day');
+            if(ex) cls.push('tr-exam-day', ex.type==='mappe' ? 'tr-mappe-day' : '');
             if(k===sel) cls.push('tr-selected');
             else if(st==='full') cls.push('tr-full');
             else if(st==='partial') cls.push('tr-partial');
@@ -863,7 +866,7 @@
         var list=document.getElementById('tr-task-list');
         var dd=data[sel]||{}, tasks=tasksFor(sel);
         list.innerHTML='';
-        if(EXAM_MAP[sel]){ var ban=document.createElement('div'); ban.className='tr-exam-banner'; ban.innerHTML='[ EXAM ] '+EXAM_MAP[sel]; list.appendChild(ban); }
+        if(EXAM_MAP[sel]){ var ban=document.createElement('div'); ban.className='tr-exam-banner'; var entry=EXAM_MAP[sel]; ban.innerHTML=(entry.type==='mappe' ? '[ MAPPE INNLEVERING ] ' : '[ EKSAMEN ] ')+entry.subject; list.appendChild(ban); }
         tasks.forEach(function(task){
           var chk=!!dd[task.id];
           var item=document.createElement('div'); item.className='tr-task-item'+(chk?' tr-done':'');
